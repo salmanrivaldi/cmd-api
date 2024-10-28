@@ -1,0 +1,1588 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tb_approved {
+  id          Int      @id
+  bulan       DateTime @db.Date
+  status      Int
+  form        String   @db.VarChar(10)
+  create_by   String   @db.VarChar(30)
+  create_date DateTime @db.DateTime(0)
+}
+
+model tb_cmd_limit {
+  limit_id     Int      @id
+  site_id      String   @db.VarChar(2)
+  limit_cso    String   @db.VarChar(200)
+  limit_start  DateTime @db.Date
+  limit_end    DateTime @db.Date
+  limit_expire DateTime @db.Date
+  limit_add    String   @db.VarChar(10)
+  limit_edit   String   @db.VarChar(10)
+  limit_delete String   @db.VarChar(10)
+  create_by    String   @db.VarChar(30)
+  modify_by    String   @db.VarChar(30)
+  create_date  DateTime @db.DateTime(0)
+  modify_date  DateTime @db.DateTime(0)
+  trash        Int
+}
+
+model tb_daerah {
+  daerah_id        Int      @id
+  uuid             String   @db.VarChar(200)
+  site_id          String   @db.VarChar(100)
+  daerah_kode      String   @db.VarChar(100)
+  daerah_kode_lama String   @db.VarChar(30)
+  daerah_titel     String   @db.VarChar(200)
+  daerah_titel_eng String   @db.VarChar(200)
+  daerah_alias     String   @db.VarChar(200)
+  daerah_paren     String   @db.VarChar(100)
+  daerah_tipe      String   @db.VarChar(100)
+  daerah_latitude  String   @db.VarChar(10)
+  daerah_longitude String   @db.VarChar(10)
+  daerah_path      String   @db.Text
+  active           Int
+  create_by        String   @db.VarChar(100)
+  modify_by        String   @db.VarChar(100)
+  create_date      DateTime @db.DateTime(0)
+  modify_date      DateTime @db.DateTime(0)
+  trash            Int
+
+  @@index([active], map: "active")
+  @@index([daerah_kode], map: "daerah_kode")
+  @@index([daerah_paren], map: "daerah_paren")
+  @@index([daerah_tipe], map: "daerah_tipe")
+  @@index([uuid], map: "uuid")
+}
+
+model tb_daerah_siha {
+  id           Int                 @id
+  site_id      Int
+  daerah_kode  String              @db.VarChar(100)
+  daerah_titel String              @db.VarChar(100)
+  daerah_alias String              @db.VarChar(100)
+  daerah_paren String              @db.VarChar(20)
+  daerah_tipe  String              @db.VarChar(30)
+  loc_x        String              @db.VarChar(30)
+  loc_y        String              @db.VarChar(30)
+  flag         tb_daerah_siha_flag
+  create_by    String              @db.VarChar(30)
+  modify_by    String              @db.VarChar(30)
+  create_date  DateTime            @db.DateTime(0)
+  modify_date  DateTime            @db.DateTime(0)
+
+  @@index([daerah_kode], map: "daerah_kode")
+}
+
+model tb_epi_pkm {
+  pkm_id             Int      @id
+  uuid               String   @db.VarChar(200)
+  GlobalRecordId     String   @db.VarChar(100)
+  site_id            String   @db.VarChar(2)
+  pkm_titel          String   @db.VarChar(200)
+  pkm_titel2         String   @db.VarChar(200)
+  pkm_alias          String   @db.VarChar(200)
+  pkm_kode           String   @db.VarChar(15)
+  pkm_kode2          String   @db.VarChar(30)
+  pkm_cp             String   @db.VarChar(200)
+  pkm_wilayah        String   @db.VarChar(15)
+  pkm_wilayah2       String   @db.VarChar(15)
+  pkm_wilayah_backup String   @db.VarChar(15)
+  pkm_wilayah_lama   String   @db.VarChar(15)
+  pkm_alamat         String   @db.VarChar(200)
+  pkm_telepon        String   @db.VarChar(15)
+  pkm_fax            String   @db.VarChar(15)
+  pkm_email          String   @db.VarChar(200)
+  pkm_buka           String   @db.VarChar(100)
+  pkm_tutup          String   @db.VarChar(100)
+  pkm_supported      String   @db.VarChar(50)
+  pkm_ket            String   @db.VarChar(200)
+  create_by          String   @db.VarChar(30)
+  create_date        DateTime @db.DateTime(0)
+  modify_by          String   @db.VarChar(30)
+  modify_date        DateTime @db.DateTime(0)
+  trash              Int
+
+  @@index([pkm_kode], map: "pkm_kode")
+  @@index([pkm_supported], map: "pkm_supported")
+  @@index([pkm_titel], map: "pkm_titel")
+  @@index([trash], map: "trash")
+  @@index([uuid], map: "uuid")
+}
+
+model tb_epi_target {
+  tar_id                    Int      @id
+  instansi_kode             String   @db.VarChar(10)
+  tar_berlaku               DateTime @db.Date
+  tar_kadaluarsa            DateTime @db.Date
+  tar_reached               String   @db.VarChar(10)
+  tar_tested                String   @db.VarChar(10)
+  tar_hiv                   String   @db.VarChar(10)
+  tar_enrolled              String   @db.VarChar(10)
+  tar_know_enrolled         String   @db.VarChar(10)
+  tar_carecomm              String   @db.VarChar(10)
+  tar_pra_art               String   @db.VarChar(10)
+  tar_init_art              String   @db.VarChar(10)
+  tar_art                   String   @db.VarChar(10)
+  tar_retain                String   @db.VarChar(10)
+  tar_re_enrolled           String   @db.VarChar(10)
+  tar_reenggaged            String   @db.VarChar(10)
+  tar_out_incare            String   @db.VarChar(10)
+  tar_partner_reached       String   @db.VarChar(10)
+  tar_partner_tested        String   @db.VarChar(10)
+  tar_partner_hiv           String   @db.VarChar(10)
+  tar_partner_enrolled      String   @db.VarChar(10)
+  tar_partner_know_enrolled String   @db.VarChar(10)
+  tar_partner_carecomm      String   @db.VarChar(10)
+  tar_partner_pra_art       String   @db.VarChar(10)
+  tar_partner_init_art      String   @db.VarChar(10)
+  tar_partner_art           String   @db.VarChar(10)
+  tar_partner_retain        String   @db.VarChar(10)
+  tar_partner_re_enrolled   String   @db.VarChar(10)
+  tar_partner_reenggaged    String   @db.VarChar(10)
+  tar_partner_out_incare    String   @db.VarChar(10)
+  tar_ket                   String   @db.VarChar(100)
+  create_by                 String   @db.VarChar(30)
+  create_date               DateTime @db.DateTime(0)
+  modify_by                 String   @db.VarChar(30)
+  modify_date               DateTime @db.DateTime(0)
+  site_id                   String   @db.VarChar(100)
+
+  @@index([instansi_kode], map: "instansi_kode")
+}
+
+model tb_epi_target_2020 {
+  no            Int      @id
+  id            String   @db.VarChar(50)
+  mulai         DateTime @db.Date
+  akhir         DateTime @db.Date
+  reached       Decimal  @db.Decimal(10, 2)
+  tested        Decimal  @db.Decimal(10, 2)
+  plhiv         Decimal  @db.Decimal(10, 2)
+  registered    Decimal  @db.Decimal(10, 2)
+  case_managed  Decimal  @db.Decimal(10, 2)
+  index_testing Decimal  @db.Decimal(10, 2)
+  tested_pn     Decimal  @db.Decimal(10, 2)
+  plhiv_pn      Decimal  @db.Decimal(10, 2)
+  registered_pn Decimal  @db.Decimal(10, 2)
+  retained      Decimal  @db.Decimal(10, 2)
+  viral_load    Decimal  @db.Decimal(10, 2)
+  re_engage     Decimal  @db.Decimal(10, 2)
+  kode_cso      String   @db.VarChar(10)
+  create_by     String   @db.VarChar(30)
+  create_date   DateTime @db.DateTime(0)
+  modify_by     String   @db.VarChar(30)
+  modify_date   DateTime @db.DateTime(0)
+
+  @@index([akhir], map: "akhir")
+  @@index([id], map: "instansi_kode")
+  @@index([kode_cso], map: "kode_cso")
+  @@index([mulai], map: "mulai")
+}
+
+model tb_epi_unit {
+  unit_id            Int      @id
+  uuid               String   @db.VarChar(200)
+  site_id            String   @db.VarChar(2)
+  unit_titel         String   @db.VarChar(200)
+  unit_alias         String   @db.VarChar(200)
+  unit_kode          String   @db.VarChar(5)
+  unit_odk           String   @db.VarChar(50)
+  unit_dokling       String   @db.VarChar(15)
+  unit_paren         String   @db.VarChar(10)
+  unit_tipe          String   @db.VarChar(50)
+  unit_alamat        String   @db.VarChar(200)
+  unit_area_prov     String   @db.VarChar(200)
+  unit_area_kab      String   @db.VarChar(200)
+  unit_area_kec      String   @db.Text
+  unit_wilayah       String   @db.Text
+  unit_email         String   @db.VarChar(200)
+  unit_hp            String   @db.VarChar(15)
+  unit_fax           String   @db.VarChar(15)
+  unit_klien         String   @db.VarChar(200)
+  unit_klien_partner String   @db.VarChar(255)
+  unit_mitra         String   @db.Text
+  unit_limit_start   DateTime @db.Date
+  unit_limit_end     DateTime @db.Date
+  unit_limit_expired DateTime @db.Date
+  active             Int
+  create_by          String   @db.VarChar(30)
+  modify_by          String   @db.VarChar(30)
+  create_date        DateTime @db.DateTime(0)
+  modify_date        DateTime @db.DateTime(0)
+  trash              Int
+
+  @@index([active], map: "active")
+  @@index([trash], map: "trash")
+  @@index([unit_kode], map: "unit_kode")
+}
+
+model tb_filtering {
+  id          Int
+  pid         String    @id @db.VarChar(200)
+  uri         String    @db.VarChar(200)
+  str_data    String    @db.Text
+  created_by  String?   @db.VarChar(50)
+  reported_at DateTime? @db.DateTime(0)
+  created_at  DateTime? @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+  deleted_at  DateTime? @db.DateTime(0)
+
+  @@index([id], map: "id")
+}
+
+model tb_form1 {
+  no                       BigInt
+  uuid                     String    @db.VarChar(200)
+  id                       String    @id @db.VarChar(100)
+  tgl_kontak               DateTime? @db.Date
+  metode_kontak            String    @db.VarChar(50)
+  jumlah_kontak            Int
+  kategori_kontak          String    @db.VarChar(15)
+  uic                      String?   @db.VarChar(10)
+  nik                      String?   @db.VarChar(16)
+  umur                     Int
+  kps_sp                   String    @db.VarChar(10)
+  gender                   String?   @db.VarChar(12)
+  category                 String?   @db.VarChar(50)
+  category2                String    @db.VarChar(200)
+  tipe_kd                  String    @db.VarChar(15)
+  district                 String?   @db.VarChar(10)
+  kecamatan                String?   @db.VarChar(12)
+  kelurahan                String?   @db.VarChar(15)
+  kelurahan2               String    @db.VarChar(30)
+  lokasi_kontak            String?   @db.VarChar(100)
+  phone                    String    @db.VarChar(20)
+  phone_number             String    @db.VarChar(15)
+  ktp                      String?   @db.VarChar(3)
+  ktp_ya                   String?   @db.VarChar(100)
+  asuransi                 String?   @db.VarChar(3)
+  asuransi_ya              String?   @db.VarChar(100)
+  tahu_status_hiv          String?   @db.VarChar(15)
+  tes_hasil_enam_bulan     String?   @db.VarChar(3)
+  tes_hasil_duabelas_bulan String    @db.VarChar(5)
+  terdaftar_perawatan      String    @db.VarChar(3)
+  didampingi_cbs_plus      String    @db.VarChar(3)
+  berbagi_jarum_suntik     String    @db.VarChar(3)
+  seks_tanpa_kondom        String    @db.VarChar(3)
+  eligible                 String    @db.VarChar(3)
+  mengalami_kekerasan      String    @db.VarChar(3)
+  bersedia_dirujuk_aeo     String    @db.VarChar(15)
+  mengalami_gejala_tb      String    @db.VarChar(200)
+  jarum_suntik             Int
+  kondom                   Int
+  pelicin                  Int
+  media_kie                Int
+  prep                     String    @db.VarChar(15)
+  prep_link                String    @db.VarChar(15)
+  klien_adalah             String    @db.VarChar(50)
+  tes                      String    @db.VarChar(3)
+  tes_layanan              String    @db.VarChar(10)
+  tb                       String    @db.VarChar(3)
+  ims                      String    @db.VarChar(3)
+  gbv                      String    @db.VarChar(3)
+  tes_lainnya              String    @db.VarChar(100)
+  menolak_dirujuk          String    @db.VarChar(3)
+  rencana_bertemu_lagi     String    @db.VarChar(15)
+  klien_form2              String    @db.VarChar(3)
+  merujuk_cbs_plus         String    @db.VarChar(5)
+  form_entri               String    @db.VarChar(10)
+  nama_cbs_plus            String    @db.VarChar(50)
+  kode_nama_cbs            String?   @db.VarChar(100)
+  kode_parent_cbs          String    @db.VarChar(100)
+  tipe_cbs                 String    @db.VarChar(200)
+  cso                      String?   @db.VarChar(200)
+  kode_cso                 String    @db.VarChar(10)
+  tgl_review               DateTime  @db.Date
+  validated                DateTime? @db.DateTime(0)
+  reported                 DateTime? @db.DateTime(0)
+  create_date              DateTime  @db.DateTime(0)
+  create_by                String    @db.VarChar(50)
+  modify_date              DateTime? @db.DateTime(0)
+  modify_by                String    @db.VarChar(50)
+  trash                    Int
+
+  @@index([category], map: "category")
+  @@index([cso], map: "cso")
+  @@index([district], map: "distrik")
+  @@index([eligible], map: "eligible")
+  @@index([gender], map: "gender")
+  @@index([kecamatan], map: "kecamatan")
+  @@index([kelurahan], map: "kelurahan")
+  @@index([kode_cso], map: "kode_cso")
+  @@index([kode_nama_cbs], map: "kode_nama_cbs")
+  @@index([kps_sp], map: "kps_sp")
+  @@index([mengalami_gejala_tb], map: "mengalami_gejala_tb")
+  @@index([menolak_dirujuk], map: "menolak_dirujuk")
+  @@index([no], map: "no")
+  @@index([reported], map: "reported")
+  @@index([tahu_status_hiv], map: "tahu_status_hiv")
+  @@index([tb], map: "tb")
+  @@index([terdaftar_perawatan], map: "terdaftar_perawatan")
+  @@index([tes], map: "tes_dokling")
+  @@index([tes_hasil_enam_bulan], map: "tes_hasil_enam_bulan")
+  @@index([tes_layanan], map: "tes_layanan")
+  @@index([tgl_kontak], map: "tgl_kontak")
+  @@index([tipe_cbs], map: "tipe_cbs")
+  @@index([tipe_kd], map: "tipe_kd")
+  @@index([trash], map: "trash")
+  @@index([uic], map: "uic")
+  @@index([uuid], map: "uuid")
+}
+
+model tb_form1a {
+  no                        BigInt
+  uuid                      String    @db.VarChar(200)
+  id                        String    @id @db.VarChar(100)
+  tgl_kontak                DateTime? @db.Date
+  metode_kontak             String    @db.VarChar(50)
+  jumlah_kontak             Int
+  kategori_kontak           String    @db.VarChar(15)
+  uic                       String?   @db.VarChar(10)
+  nik                       String?   @db.VarChar(16)
+  umur                      Int
+  kps_sp                    String    @db.VarChar(10)
+  gender                    String?   @db.VarChar(12)
+  category                  String?   @db.VarChar(50)
+  category2                 String    @db.VarChar(200)
+  tipe_kd                   String    @db.VarChar(15)
+  district                  String?   @db.VarChar(10)
+  kecamatan                 String?   @db.VarChar(12)
+  kelurahan                 String?   @db.VarChar(15)
+  kelurahan2                String    @db.VarChar(30)
+  lokasi_kontak             String?   @db.VarChar(100)
+  phone                     String    @db.VarChar(20)
+  phone_number              String    @db.VarChar(15)
+  ktp                       String?   @db.VarChar(3)
+  ktp_ya                    String?   @db.VarChar(100)
+  asuransi                  String?   @db.VarChar(3)
+  asuransi_ya               String?   @db.VarChar(100)
+  mulai_prep                DateTime? @db.Date
+  kunjungan_prep_terakhir   DateTime? @db.Date
+  kunjungan_bukan_ke        String?   @db.VarChar(25)
+  kunjungan_bukan_ke_detail Int
+  untuk_berapa_bulan_prep   Int?
+  dimana_pelayanan_prep     String?   @db.VarChar(50)
+  rejimen_prep              String?   @db.VarChar(25)
+  pernah_melewatkan_prep    String?   @db.VarChar(25)
+  masih_akses_prep          String?   @db.VarChar(50)
+  efek_samping              String?   @db.VarChar(50)
+  seks_selalu_pakai_kondom  String?   @db.VarChar(5)
+  tes_hiv_terakhir          DateTime? @db.Date
+  jadwal_tes_hiv            DateTime? @db.Date
+  kondom                    Int
+  pelicin                   Int
+  media_kie                 Int
+  klien_adalah              String    @db.VarChar(50)
+  tes                       String?   @db.VarChar(3)
+  tes_layanan               String?   @db.VarChar(10)
+  prep                      String?   @db.VarChar(15)
+  tb                        String?   @db.VarChar(3)
+  ims                       String?   @db.VarChar(3)
+  gbv                       String?   @db.VarChar(3)
+  tes_lainnya               String?   @db.VarChar(100)
+  form_entri                String    @db.VarChar(10)
+  nama_cbs_plus             String    @db.VarChar(50)
+  kode_nama_cbs             String?   @db.VarChar(100)
+  kode_parent_cbs           String    @db.VarChar(100)
+  tipe_cbs                  String    @db.VarChar(200)
+  cso                       String?   @db.VarChar(200)
+  kode_cso                  String    @db.VarChar(10)
+  tgl_review                DateTime  @db.Date
+  validated                 DateTime? @db.DateTime(0)
+  reported                  DateTime? @db.DateTime(0)
+  create_by                 String    @db.VarChar(50)
+  modify_by                 String    @db.VarChar(50)
+  created_at                DateTime? @db.DateTime(0)
+  updated_at                DateTime? @db.DateTime(0)
+  deleted_at                DateTime? @db.DateTime(0)
+  trash                     Int
+
+  @@index([category], map: "category")
+  @@index([cso], map: "cso")
+  @@index([district], map: "distrik")
+  @@index([gender], map: "gender")
+  @@index([kecamatan], map: "kecamatan")
+  @@index([kelurahan], map: "kelurahan")
+  @@index([kode_cso], map: "kode_cso")
+  @@index([kode_nama_cbs], map: "kode_nama_cbs")
+  @@index([kps_sp], map: "kps_sp")
+  @@index([no], map: "no")
+  @@index([prep], map: "prep")
+  @@index([reported], map: "reported")
+  @@index([tb], map: "tb")
+  @@index([tes], map: "tes_dokling")
+  @@index([tes_layanan], map: "tes_layanan")
+  @@index([tgl_kontak], map: "tgl_kontak")
+  @@index([tipe_cbs], map: "tipe_cbs")
+  @@index([tipe_kd], map: "tipe_kd")
+  @@index([trash], map: "trash")
+  @@index([uic], map: "uic")
+  @@index([uuid], map: "uuid")
+}
+
+model tb_form2 {
+  no                                  Int
+  uuid                                String    @db.VarChar(200)
+  id                                  String    @id @db.VarChar(100)
+  tgl_kontak                          DateTime? @db.Date
+  metode_kontak                       String    @db.VarChar(50)
+  uic                                 String?   @db.VarChar(10)
+  uic_parent                          String    @db.VarChar(10)
+  umur                                Int
+  kps_sp                              String?   @db.VarChar(10)
+  gender                              String?   @db.VarChar(12)
+  category                            String?   @db.VarChar(50)
+  category2                           String    @db.VarChar(200)
+  tipe_kd                             String    @db.VarChar(15)
+  district                            String?   @db.VarChar(10)
+  kecamatan                           String?   @db.VarChar(12)
+  kelurahan                           String?   @db.VarChar(15)
+  manajemen_kasus                     String    @db.VarChar(100)
+  lokasi_kontak                       String?   @db.VarChar(100)
+  asal_klien                          String    @db.VarChar(15)
+  phone                               String    @db.VarChar(20)
+  phone_number                        String    @db.VarChar(15)
+  ktp                                 String?   @db.VarChar(3)
+  ktp_ya                              String?   @db.VarChar(100)
+  asuransi                            String?   @db.VarChar(3)
+  asuransi_ya                         String?   @db.VarChar(100)
+  dirujuk_oleh                        String    @db.VarChar(100)
+  dirujuk_oleh_detil                  String    @db.VarChar(200)
+  kunjungan                           String    @db.VarChar(100)
+  no_regnas                           String    @db.VarChar(50)
+  kapan_terdiagnosis_hiv              String?   @db.VarChar(50)
+  tanggal_terdiagnosis_hiv            DateTime? @db.Date
+  pernah_terdaftar_perawatan          String    @db.VarChar(50)
+  terakhir_akses_layanan              String    @db.VarChar(100)
+  mekanisme                           String    @db.VarChar(50)
+  mekanisme_detail                    String    @db.VarChar(100)
+  hasil_telusur                       String    @db.VarChar(100)
+  hasil_telusur_meninggal             String    @db.VarChar(50)
+  faktor_menghambat_perawatan         String    @db.Text
+  faktor_menghambat_perawatan_lainnya String    @db.VarChar(200)
+  pendampingan_rujukan                String    @db.VarChar(5)
+  media_kie                           String    @db.VarChar(3)
+  kartu_kontak_cbsplus                String    @db.VarChar(3)
+  transportasi                        String    @db.VarChar(5)
+  butuh_bantuan_cbs_plus              String    @db.VarChar(5)
+  re_engage                           String    @db.VarChar(3)
+  speak_health_worker                 String    @db.VarChar(3)
+  rujukan_klien                       String    @db.VarChar(200)
+  klien_adalah                        String    @db.VarChar(50)
+  rencana_bertemu_lagi                String    @db.VarChar(15)
+  merujuk_cbs_plus                    String    @db.VarChar(5)
+  rujukan_diberikan                   String    @db.VarChar(200)
+  rujukan_diberikan_lain              String    @db.VarChar(200)
+  form_entri                          String    @db.VarChar(10)
+  nama_cbs_plus                       String    @db.VarChar(50)
+  kode_nama_cbs                       String?   @db.VarChar(100)
+  kode_parent_cbs                     String    @db.VarChar(100)
+  tipe_cbs                            String    @db.VarChar(200)
+  cso                                 String?   @db.VarChar(200)
+  kode_cso                            String    @db.VarChar(10)
+  tgl_review                          DateTime  @db.Date
+  validated                           DateTime? @db.DateTime(0)
+  reported                            DateTime? @db.DateTime(0)
+  create_date                         DateTime  @db.DateTime(0)
+  create_by                           String    @db.VarChar(50)
+  modify_date                         DateTime? @db.DateTime(0)
+  modify_by                           String?   @db.VarChar(50)
+  trash                               Int
+
+  @@index([cso], map: "cso")
+  @@index([district], map: "distrik")
+  @@index([gender], map: "gender")
+  @@index([kecamatan], map: "kecamatan")
+  @@index([kelurahan], map: "kelurahan")
+  @@index([kode_cso], map: "kode_cso")
+  @@index([no], map: "no")
+  @@index([tgl_kontak], map: "tgl_kontak")
+  @@index([tipe_cbs], map: "tipe_cbs")
+  @@index([tipe_kd], map: "tipe_kd")
+  @@index([uic], map: "uic")
+  @@index([uuid], map: "uuid")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_form3 {
+  no                 BigInt
+  uuid               String    @db.VarChar(200)
+  id                 String    @id @db.VarChar(100)
+  tgl_kontak         DateTime? @db.Date
+  uic                String?   @db.VarChar(10)
+  uic_parent         String    @db.VarChar(10)
+  umur               Int
+  kps_sp             String    @db.VarChar(10)
+  gender             String?   @db.VarChar(12)
+  category           String?   @db.VarChar(50)
+  category2          String    @db.VarChar(200)
+  tipe_kd            String    @db.VarChar(15)
+  district           String?   @db.VarChar(10)
+  kecamatan          String?   @db.VarChar(12)
+  kelurahan          String?   @db.VarChar(15)
+  kelurahan2         String    @db.VarChar(15)
+  manajemen_kasus    String?   @db.VarChar(100)
+  lokasi_kontak      String?   @db.VarChar(100)
+  phone              String    @db.VarChar(50)
+  phone_number       String    @db.VarChar(15)
+  ktp                String?   @db.VarChar(3)
+  ktp_ya             String?   @db.VarChar(100)
+  asuransi           String?   @db.VarChar(3)
+  asuransi_ya        String?   @db.VarChar(100)
+  dirujuk_oleh       String?   @db.VarChar(100)
+  dirujuk_oleh_detil String    @db.VarChar(200)
+  layanan_perawatan  String?   @db.VarChar(200)
+  no_regnas          String    @db.VarChar(50)
+  mulai_art          String    @db.VarChar(50)
+  tgl_mulai_art      DateTime? @db.Date
+  tgl_restart_arv    DateTime? @db.Date
+  kategori_klien     String    @db.VarChar(30)
+  form_entri         String    @db.VarChar(10)
+  kode_nama_cbs      String?   @db.VarChar(100)
+  kode_parent_cbs    String    @db.VarChar(100)
+  tipe_cbs           String    @db.VarChar(200)
+  cso                String?   @db.VarChar(200)
+  kode_cso           String    @db.VarChar(10)
+  tgl_review         DateTime  @db.Date
+  validated          DateTime? @db.DateTime(0)
+  reported           DateTime? @db.DateTime(0)
+  create_date        DateTime  @db.DateTime(0)
+  create_by          String    @db.VarChar(50)
+  modify_date        DateTime? @db.DateTime(0)
+  modify_by          String    @db.VarChar(50)
+  quotes             String    @db.VarChar(200)
+  trash              Int
+
+  @@index([category], map: "category")
+  @@index([cso], map: "cso")
+  @@index([district], map: "distrik")
+  @@index([gender], map: "gender")
+  @@index([kecamatan], map: "kecamatan")
+  @@index([kelurahan], map: "kelurahan")
+  @@index([kode_cso], map: "kode_cso")
+  @@index([kps_sp], map: "kps_sp")
+  @@index([no], map: "no")
+  @@index([tgl_kontak], map: "tgl_kontak")
+  @@index([tgl_mulai_art], map: "tgl_mulai_art")
+  @@index([tipe_kd], map: "tipe_kd")
+  @@index([uic], map: "uic")
+  @@index([uuid], map: "uuid")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_form4 {
+  no                                         BigInt
+  uuid                                       String    @db.VarChar(200)
+  id                                         String    @id @db.VarChar(100)
+  tgl_kontak                                 DateTime? @db.Date
+  jumlah_kontak                              Int
+  uic                                        String?   @db.VarChar(10)
+  uic_parent                                 String    @db.VarChar(10)
+  tgl_lahir                                  DateTime  @db.Date
+  umur                                       Int
+  kps_sp                                     String    @db.VarChar(10)
+  gender                                     String?   @db.VarChar(12)
+  category                                   String?   @db.VarChar(50)
+  category2                                  String    @db.VarChar(200)
+  tipe_kd                                    String    @db.VarChar(15)
+  district                                   String?   @db.VarChar(10)
+  kecamatan                                  String?   @db.VarChar(12)
+  kelurahan                                  String?   @db.VarChar(15)
+  kelurahan2                                 String    @db.VarChar(15)
+  manajemen_kasus                            String?   @db.VarChar(100)
+  lokasi_kontak                              String?   @db.VarChar(100)
+  phone                                      String    @db.VarChar(50)
+  phone_number                               String    @db.VarChar(15)
+  ktp                                        String?   @db.VarChar(3)
+  ktp_ya                                     String?   @db.VarChar(100)
+  asuransi                                   String?   @db.VarChar(3)
+  asuransi_ya                                String?   @db.VarChar(100)
+  kunjungan                                  String?   @db.VarChar(25)
+  no_regnas                                  String    @db.VarChar(50)
+  jenis_arv                                  String    @db.VarChar(25)
+  kombinasi_arv                              String    @db.Text
+  kombinasi_arv_lain                         String    @db.VarChar(200)
+  tgl_art                                    DateTime? @db.Date
+  tgl_art_pre                                DateTime  @db.Date
+  belum_art                                  String?   @db.VarChar(50)
+  tgl_restart_arv                            String    @db.VarChar(50)
+  tes_vl_terakhir                            String    @db.VarChar(50)
+  syarat_tes_vl                              String    @db.VarChar(10)
+  sudah_menjadwalkan_vl                      String    @db.VarChar(10)
+  hasil_tes_vl                               String    @db.VarChar(30)
+  nilai_tes_vl                               Int
+  jadwal_tes_vl                              String    @db.VarChar(50)
+  eligible_vl                                String    @db.VarChar(3)
+  kesulitan_kepatuhan                        String?   @db.VarChar(100)
+  kesulitan_kepatuhan_lainnya                String    @db.VarChar(100)
+  layanan_perawatan_hiv                      String?   @db.VarChar(100)
+  tgl_terima_obat_arv                        DateTime? @db.Date
+  tgl_skedul_obat_arv                        DateTime? @db.Date
+  month_arv                                  Int
+  method_arv                                 String    @db.VarChar(200)
+  method_arv_other                           String    @db.VarChar(200)
+  melewatkan_jadwal_kunjungan                String?   @db.VarChar(15)
+  alasan_melewatkan_jadwal_kunjungan         String?   @db.VarChar(100)
+  alasan_melewatkan_jadwal_kunjungan_lainnya String    @db.VarChar(200)
+  art_lebih_satu_bulan                       String    @db.VarChar(10)
+  art_lebih_satu_bulan_saat_ini              String    @db.VarChar(10)
+  ingin_didampingi_cbs                       String?   @db.VarChar(15)
+  tergabung_kds                              String?   @db.VarChar(15)
+  dukungan_keluarga                          String?   @db.VarChar(15)
+  memberitahu_cd4                            String?   @db.VarChar(15)
+  nilai_cd4                                  String?   @db.VarChar(15)
+  perubahan_berat_badan                      String?   @db.VarChar(15)
+  mengalami_gejala_tb                        String    @db.VarChar(200)
+  pernah_tes_tb                              String    @db.VarChar(5)
+  beritahu_hasil                             String    @db.VarChar(10)
+  hasil_tes_tb                               String    @db.VarChar(10)
+  status_pengobatan_tb                       String    @db.VarChar(25)
+  tpt                                        String    @db.VarChar(25)
+  tpt_lengkap                                String    @db.VarChar(10)
+  tgl_tpt_lengkap                            DateTime  @db.Date
+  pengobatan_penyakit_lain                   String?   @db.VarChar(50)
+  nama_penyakit_lain                         String?   @db.VarChar(50)
+  menerima_pengobatan                        String?   @db.VarChar(15)
+  janji_temu_cbs                             String?   @db.VarChar(15)
+  mengalami_kekerasan                        String?   @db.VarChar(15)
+  rujukan_aeo                                String    @db.VarChar(10)
+  emoji_perasaan_hidup                       String?   @db.VarChar(15)
+  masih_membutuhkan_cbs                      String    @db.VarChar(25)
+  pencegahan_hiv                             String?   @db.VarChar(100)
+  material_pencegahan                        String?   @db.VarChar(3)
+  media_kie                                  String?   @db.VarChar(3)
+  kartu_kontak_cbsplus                       String?   @db.VarChar(3)
+  kartu_rujukan_kds                          String?   @db.VarChar(3)
+  transportasi                               String    @db.VarChar(15)
+  rujukan_layanan_lain                       String?   @db.VarChar(3)
+  rujukan_layanan_lain_sebutkan              String?   @db.VarChar(100)
+  jumlah_jarum_suntik                        BigInt
+  jumlah_kondom                              BigInt
+  jumlah_pelicin                             BigInt
+  jumlah_media_kie                           BigInt
+  bersedia_index_testing                     String?   @db.VarChar(15)
+  eligible_index_testing                     String    @db.VarChar(3)
+  puas_kualitas_perawatan_layanan            String?   @db.VarChar(15)
+  puas_kualitas_perawatan_komunitas          String?   @db.VarChar(15)
+  rekomendasi                                String?   @db.VarChar(50)
+  rencana_bertemu_lagi                       String?   @db.VarChar(15)
+  tgl_bertemu_lagi                           DateTime? @db.Date
+  form5_lengkap                              String?   @db.VarChar(20)
+  transisi_form4b                            String?   @db.VarChar(20)
+  transisi_form4c                            String    @db.VarChar(20)
+  form_terminasi                             String    @db.VarChar(15)
+  menyelesaikan_layanan_cbs                  String    @db.VarChar(25)
+  rujukan_diberikan                          String?   @db.VarChar(50)
+  rujukan_diberikan_lain                     String    @db.VarChar(200)
+  form_entri                                 String    @db.VarChar(10)
+  kode_nama_cbs                              String?   @db.VarChar(100)
+  kode_parent_cbs                            String    @db.VarChar(100)
+  tipe_cbs                                   String    @db.VarChar(200)
+  cso                                        String?   @db.VarChar(200)
+  kode_cso                                   String    @db.VarChar(10)
+  form                                       String    @db.VarChar(5)
+  tgl_review                                 DateTime  @db.Date
+  validated                                  DateTime? @db.DateTime(0)
+  reported                                   DateTime? @db.DateTime(0)
+  create_date                                DateTime  @db.DateTime(0)
+  create_by                                  String    @db.VarChar(50)
+  modify_date                                DateTime? @db.DateTime(0)
+  modify_by                                  String    @db.VarChar(50)
+  trash                                      Int
+
+  @@index([category], map: "category")
+  @@index([district], map: "district")
+  @@index([gender], map: "gender")
+  @@index([kps_sp], map: "kps_sp")
+  @@index([no], map: "no")
+  @@index([rujukan_diberikan, kode_nama_cbs, kode_cso, form, validated, trash], map: "rujukan_diberikan")
+  @@index([syarat_tes_vl, jadwal_tes_vl, layanan_perawatan_hiv, mengalami_gejala_tb, tpt, tgl_tpt_lengkap, bersedia_index_testing, eligible_index_testing], map: "syarat_tes_vl")
+  @@index([tes_vl_terakhir], map: "tes_vl_terakhir")
+  @@index([tgl_art], map: "tgl_art")
+  @@index([tgl_kontak], map: "tgl_kontak")
+  @@index([tgl_restart_arv], map: "tgl_restart_arv")
+  @@index([tgl_terima_obat_arv], map: "tgl_terima_obat_arv")
+  @@index([uic], map: "uic")
+  @@index([uuid], map: "uuid")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_form5 {
+  no                   Int
+  uuid                 String    @db.VarChar(200)
+  id                   String    @db.VarChar(100)
+  tgl_kontak           DateTime? @db.Date
+  uic                  String?   @db.VarChar(10)
+  uic_parent           String    @db.VarChar(10)
+  umur                 Int?
+  kps_sp               String    @db.VarChar(15)
+  gender               String?   @db.VarChar(15)
+  category             String?   @db.VarChar(20)
+  tipe_kd              String    @db.VarChar(15)
+  district             String?   @db.VarChar(50)
+  kecamatan            String    @db.VarChar(12)
+  kelurahan            String    @db.VarChar(15)
+  manajemen_kasus      String?   @db.VarChar(50)
+  lokasi_kontak        String    @db.VarChar(100)
+  referred_form        String?   @db.VarChar(50)
+  relationship1        String?   @db.VarChar(30)
+  partner_gender1      String?   @db.VarChar(15)
+  partner_age1         Int?      @db.SmallInt
+  partner_age1_month   Int       @db.SmallInt
+  resiko_kekerasan1    String?   @db.VarChar(50)
+  lanjut1_np           String    @db.VarChar(15)
+  lanjut1_form8        String    @db.VarChar(15)
+  tipe_rujukan1        String?   @db.VarChar(50)
+  nama1                String    @db.VarChar(30)
+  phone1               String    @db.VarChar(15)
+  contacted1           String    @db.VarChar(5)
+  relationship2        String?   @db.VarChar(30)
+  partner_gender2      String?   @db.VarChar(15)
+  partner_age2         Int?      @db.SmallInt
+  partner_age2_month   Int       @db.SmallInt
+  resiko_kekerasan2    String?   @db.VarChar(50)
+  lanjut2_np           String    @db.VarChar(15)
+  lanjut2_form8        String    @db.VarChar(15)
+  tipe_rujukan2        String?   @db.VarChar(50)
+  nama2                String    @db.VarChar(30)
+  phone2               String    @db.VarChar(15)
+  contacted2           String    @db.VarChar(5)
+  relationship3        String?   @db.VarChar(30)
+  partner_gender3      String?   @db.VarChar(15)
+  partner_age3         Int?      @db.SmallInt
+  partner_age3_month   Int       @db.SmallInt
+  resiko_kekerasan3    String?   @db.VarChar(50)
+  lanjut3_np           String    @db.VarChar(15)
+  lanjut3_form8        String    @db.VarChar(15)
+  tipe_rujukan3        String?   @db.VarChar(50)
+  nama3                String    @db.VarChar(30)
+  phone3               String    @db.VarChar(15)
+  contacted3           String    @db.VarChar(5)
+  relationship4        String?   @db.VarChar(30)
+  partner_gender4      String?   @db.VarChar(15)
+  partner_age4         Int?      @db.SmallInt
+  partner_age4_month   Int       @db.SmallInt
+  resiko_kekerasan4    String?   @db.VarChar(50)
+  lanjut4_np           String    @db.VarChar(15)
+  lanjut4_form8        String    @db.VarChar(15)
+  tipe_rujukan4        String?   @db.VarChar(50)
+  nama4                String    @db.VarChar(30)
+  phone4               String    @db.VarChar(15)
+  contacted4           String    @db.VarChar(5)
+  relationship5        String?   @db.VarChar(30)
+  partner_gender5      String?   @db.VarChar(15)
+  partner_age5         Int?      @db.SmallInt
+  partner_age5_month   Int       @db.SmallInt
+  resiko_kekerasan5    String?   @db.VarChar(50)
+  lanjut5_np           String    @db.VarChar(15)
+  lanjut5_form8        String    @db.VarChar(15)
+  tipe_rujukan5        String?   @db.VarChar(50)
+  nama5                String    @db.VarChar(30)
+  phone5               String    @db.VarChar(15)
+  contacted5           String    @db.VarChar(5)
+  list                 Int
+  tgl_kontak1          DateTime  @db.Date
+  tgl_kontak2          DateTime  @db.Date
+  tgl_kontak3          DateTime  @db.Date
+  tgl_kontak4          DateTime  @db.Date
+  tgl_kontak5          DateTime  @db.Date
+  hasil1               String    @db.VarChar(25)
+  hasil2               String    @db.VarChar(25)
+  hasil3               String    @db.VarChar(25)
+  hasil4               String    @db.VarChar(25)
+  hasil5               String    @db.VarChar(25)
+  skrining1            String    @db.VarChar(5)
+  skrining2            String    @db.VarChar(5)
+  skrining3            String    @db.VarChar(5)
+  skrining4            String    @db.VarChar(5)
+  skrining5            String    @db.VarChar(5)
+  rujukan1             String    @db.VarChar(25)
+  rujukan2             String    @db.VarChar(25)
+  rujukan3             String    @db.VarChar(25)
+  rujukan4             String    @db.VarChar(25)
+  rujukan5             String    @db.VarChar(25)
+  uic1                 String    @db.VarChar(10)
+  uic2                 String    @db.VarChar(10)
+  uic3                 String    @db.VarChar(10)
+  uic4                 String    @db.VarChar(10)
+  uic5                 String    @db.VarChar(10)
+  fasyankes1           String    @db.VarChar(30)
+  fasyankes2           String    @db.VarChar(30)
+  fasyankes3           String    @db.VarChar(30)
+  fasyankes4           String    @db.VarChar(30)
+  fasyankes5           String    @db.VarChar(30)
+  jumlah_slip          String?   @db.VarChar(3)
+  nama_cbs_plus        String?   @db.VarChar(50)
+  jumlah_kartu_cbs     String?   @db.VarChar(3)
+  rencana_bertemu_lagi String?   @db.VarChar(15)
+  tgl_bertemu_lagi     DateTime? @db.Date
+  form_entri           String    @db.VarChar(10)
+  kode_nama_cbs        String?   @db.VarChar(100)
+  kode_parent_cbs      String    @db.VarChar(100)
+  tipe_cbs             String    @db.VarChar(200)
+  cso                  String?   @db.VarChar(200)
+  kode_cso             String    @db.VarChar(10)
+  tgl_review           DateTime  @db.Date
+  validated            DateTime? @db.DateTime(0)
+  reported             DateTime? @db.DateTime(0)
+  create_date          DateTime  @db.DateTime(0)
+  create_by            String    @db.VarChar(50)
+  modify_date          DateTime? @db.DateTime(0)
+  modify_by            String    @db.VarChar(50)
+  trash                Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_form5a {
+  no                   Int
+  uuid                 String?   @db.VarChar(100)
+  id                   String    @db.VarChar(25)
+  num                  Int
+  fid                  String?   @db.VarChar(25)
+  tgl_kontak           DateTime? @db.Date
+  uic                  String?   @db.VarChar(15)
+  uic_parent           String    @db.VarChar(10)
+  umur                 Int?
+  kps_sp               String    @db.VarChar(15)
+  gender               String?   @db.VarChar(15)
+  category             String?   @db.VarChar(20)
+  tipe_kd              String    @db.VarChar(15)
+  district             String?   @db.VarChar(50)
+  kecamatan            String    @db.VarChar(12)
+  kelurahan            String    @db.VarChar(15)
+  manajemen_kasus      String?   @db.VarChar(50)
+  lokasi_kontak        String    @db.VarChar(100)
+  referred_form        String?   @db.VarChar(50)
+  pn_relation          String?   @db.VarChar(30)
+  pn_gender            String?   @db.VarChar(15)
+  pn_age               Int?      @db.SmallInt
+  pn_age_month         Int?      @db.SmallInt
+  pn_resiko            String?   @db.VarChar(50)
+  pn_aeo               String?   @db.VarChar(15)
+  pn_form8             String?   @db.VarChar(15)
+  pn_tipe_rujukan      String?   @db.VarChar(50)
+  pn_nama              String?   @db.VarChar(30)
+  pn_phone             String?   @db.VarChar(15)
+  contacted            String?   @db.VarChar(5)
+  list                 Int
+  pn_tgl_kontak        DateTime  @db.Date
+  pn_hasil             String    @db.VarChar(25)
+  pn_skrining          String    @db.VarChar(5)
+  pn_rujukan           String    @db.VarChar(25)
+  pn_uic               String    @db.VarChar(10)
+  pn_fasyankes         String    @db.VarChar(30)
+  jumlah_slip          String?   @db.VarChar(3)
+  nama_cbs_plus        String?   @db.VarChar(50)
+  jumlah_kartu_cbs     String?   @db.VarChar(3)
+  rencana_bertemu_lagi String?   @db.VarChar(15)
+  tgl_bertemu_lagi     DateTime? @db.Date
+  form_entri           String    @db.VarChar(10)
+  kode_nama_cbs        String?   @db.VarChar(100)
+  kode_parent_cbs      String    @db.VarChar(100)
+  tipe_cbs             String    @db.VarChar(200)
+  cso                  String?   @db.VarChar(200)
+  kode_cso             String    @db.VarChar(10)
+  tgl_review           DateTime  @db.Date
+  validated            DateTime? @db.DateTime(0)
+  reported             DateTime? @db.DateTime(0)
+  create_date          DateTime  @db.DateTime(0)
+  create_by            String    @db.VarChar(50)
+  modify_date          DateTime? @db.DateTime(0)
+  modify_by            String    @db.VarChar(50)
+  trash                Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_form6 {
+  no               BigInt
+  uuid             String    @db.VarChar(200)
+  id               String    @db.VarChar(100)
+  tgl_kontak       DateTime? @db.Date
+  uic              String?   @db.VarChar(10)
+  nik              String    @db.VarChar(16)
+  uic_parent       String    @db.VarChar(10)
+  gender_parent    String    @db.VarChar(15)
+  category_parent  String    @db.VarChar(50)
+  tipe_rujukan     String    @db.VarChar(50)
+  referred_form    String    @db.VarChar(10)
+  umur             Int
+  kps_sp           String    @db.VarChar(10)
+  gender           String?   @db.VarChar(12)
+  category         String?   @db.VarChar(50)
+  tipe_kd          String    @db.VarChar(15)
+  district         String?   @db.VarChar(10)
+  kecamatan        String    @db.VarChar(10)
+  kelurahan        String    @db.VarChar(15)
+  kode_layanan     String    @db.VarChar(30)
+  nama_layanan     String?   @db.VarChar(100)
+  alamat_layanan   String?   @db.VarChar(100)
+  district_layanan String    @db.VarChar(100)
+  hotspot          String    @db.VarChar(200)
+  petugas          String    @db.VarChar(100)
+  slip             String?   @db.VarChar(200)
+  slip_tes         String    @db.VarChar(200)
+  ma_ltfu          String    @db.VarChar(15)
+  tes_hiv          String?   @db.VarChar(5)
+  tes_konfirmasi   String    @db.VarChar(10)
+  status_hiv       String?   @db.VarChar(15)
+  register         String?   @db.VarChar(5)
+  inisiasi_arv     DateTime? @db.Date
+  refill_arv       DateTime? @db.Date
+  restart_arv      DateTime? @db.Date
+  tes_vl           String?   @db.VarChar(5)
+  hasil_vl         String?   @db.VarChar(50)
+  tes_cd4          String?   @db.VarChar(5)
+  hasil_cd4        String?   @db.VarChar(50)
+  stb              String    @db.VarChar(5)
+  tes_tb           String?   @db.VarChar(5)
+  pengobatan_tb    String?   @db.VarChar(5)
+  tpt              String    @db.VarChar(10)
+  ims              String?   @db.VarChar(5)
+  inisiasi_prep    String    @db.VarChar(5)
+  refil_prep       String    @db.VarChar(5)
+  lainnya          String?   @db.VarChar(5)
+  catatan          String    @db.VarChar(200)
+  kode_nama_cbs    String?   @db.VarChar(100)
+  kode_parent_cbs  String    @db.VarChar(100)
+  tipe_cbs         String    @db.VarChar(200)
+  cso              String?   @db.VarChar(200)
+  kode_cso         String    @db.VarChar(10)
+  form             String    @db.VarChar(5)
+  tgl_review       DateTime  @db.Date
+  validated        DateTime? @db.DateTime(0)
+  reported         DateTime? @db.DateTime(0)
+  create_date      DateTime  @db.DateTime(0)
+  create_by        String    @db.VarChar(50)
+  modify_date      DateTime? @db.DateTime(0)
+  modify_by        String    @db.VarChar(50)
+  trash            Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_form7 {
+  no                   BigInt
+  uuid                 String    @db.VarChar(200)
+  id                   String    @db.VarChar(100)
+  tgl_kontak           DateTime? @db.Date
+  uic                  String?   @db.VarChar(10)
+  umur                 Int
+  kps_sp               String?   @db.VarChar(10)
+  gender               String?   @db.VarChar(12)
+  category             String    @db.VarChar(50)
+  category2            String    @db.VarChar(200)
+  tipe_kd              String    @db.VarChar(15)
+  district             String    @db.VarChar(10)
+  kecamatan            String    @db.VarChar(12)
+  kelurahan            String    @db.VarChar(15)
+  lokasi_kontak        String?   @db.VarChar(100)
+  phone                String    @db.VarChar(30)
+  phone_number         String    @db.VarChar(15)
+  kategori             String?   @db.VarChar(15)
+  dirujuk_oleh         String?   @db.VarChar(100)
+  cbs                  String    @db.VarChar(10)
+  fasyankes            String?   @db.VarChar(100)
+  frekuensi            Int
+  tgl_pertama_inisiasi DateTime  @db.Date
+  tgl_akhir_akses      DateTime  @db.Date
+  nomor_regnas         String    @db.VarChar(25)
+  mekanisme            String?   @db.VarChar(20)
+  mekanisme_detail     String    @db.VarChar(50)
+  missed_appointment   String    @db.VarChar(10)
+  missed_cause         String    @db.VarChar(100)
+  missed_cause_other   String    @db.VarChar(100)
+  form_entri           String    @db.VarChar(10)
+  hasil_telusur        String?   @db.VarChar(20)
+  pendamping_rujukan   String?   @db.VarChar(10)
+  transportasi         String?   @db.VarChar(5)
+  bertemu_lagi         String?   @db.VarChar(10)
+  penelusur            String?   @db.VarChar(100)
+  cso                  String?   @db.VarChar(200)
+  kode_cso             String?   @db.VarChar(10)
+  tgl_review           DateTime? @db.Date
+  create_date          DateTime? @db.DateTime(0)
+  create_by            String?   @db.VarChar(50)
+  validated            DateTime? @db.DateTime(0)
+  reported             DateTime? @db.DateTime(0)
+  modify_date          DateTime? @db.DateTime(0)
+  modify_by            String    @db.VarChar(50)
+  trash                Boolean?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_form7bscreening {
+  no                         BigInt
+  uuid                       String    @db.VarChar(200)
+  id                         String    @db.VarChar(100)
+  tgl_kontak                 DateTime? @db.Date
+  form1                      String    @db.VarChar(5)
+  asal_form                  String    @db.VarChar(15)
+  uic                        String?   @db.VarChar(10)
+  uic_parent                 String    @db.VarChar(10)
+  tgl_lahir                  DateTime  @db.Date
+  umur                       Int
+  umur_bulan                 Int
+  kps_sp                     String?   @db.VarChar(10)
+  gender                     String?   @db.VarChar(12)
+  category                   String    @db.VarChar(50)
+  category2                  String    @db.VarChar(200)
+  tipe_kd                    String    @db.VarChar(15)
+  klien_adalah               String    @db.VarChar(25)
+  district                   String    @db.VarChar(10)
+  kecamatan                  String    @db.VarChar(12)
+  kelurahan                  String    @db.VarChar(15)
+  lokasi_kontak              String?   @db.VarChar(100)
+  lokasi_kontak_lain         String    @db.VarChar(100)
+  phone                      String    @db.VarChar(30)
+  phone_number               String    @db.VarChar(15)
+  ktp                        String    @db.VarChar(5)
+  ktp_ya                     String    @db.VarChar(100)
+  ktp_nik                    String    @db.VarChar(20)
+  pernah_tes_hiv             String?   @db.VarChar(50)
+  pernah_skrining            String?   @db.VarChar(50)
+  peraga_langsung            String    @db.VarChar(100)
+  alat_bantu_kerja           String?   @db.VarChar(100)
+  skrining_sekarang          String    @db.VarChar(100)
+  skrining_60_menit          String    @db.VarChar(5)
+  tempat_layak_skrining      String    @db.VarChar(5)
+  skrining_sendiri           String    @db.VarChar(5)
+  kontak_skrining_rumah      String?   @db.VarChar(25)
+  kontak_skrining_detail     String    @db.VarChar(50)
+  asisten_virtual            String    @db.VarChar(5)
+  asisten_virtual_ya         String    @db.VarChar(50)
+  asisten_virtual_detail     String    @db.VarChar(50)
+  panggilan_24jam            String    @db.VarChar(50)
+  panggilan_48jam            String    @db.VarChar(50)
+  kesulitan_skrining         String    @db.VarChar(100)
+  kesulitan_skrining_ya      String?   @db.VarChar(100)
+  membagi_hasil              String?   @db.VarChar(5)
+  membagi_hasil_ya           String?   @db.VarChar(25)
+  alat_skrining              Int
+  slip_rujukan_dibantu       String?   @db.VarChar(5)
+  slip_rujukan_tanpa_dibantu String    @db.VarChar(5)
+  media_kie                  String    @db.VarChar(5)
+  kartu_kontak_cbs           String    @db.VarChar(5)
+  slip_2pn                   String    @db.VarChar(5)
+  menolak_dirujuk            String    @db.VarChar(5)
+  tidak_skrining             String    @db.VarChar(5)
+  form_entri                 String    @db.VarChar(10)
+  nama_cbs_plus              String    @db.VarChar(50)
+  kode_nama_cbs              String    @db.VarChar(100)
+  kode_parent_cbs            String    @db.VarChar(100)
+  tipe_cbs                   String    @db.VarChar(200)
+  cso                        String?   @db.VarChar(200)
+  kode_cso                   String?   @db.VarChar(10)
+  tgl_review                 DateTime? @db.Date
+  create_date                DateTime? @db.DateTime(0)
+  create_by                  String?   @db.VarChar(50)
+  validated                  DateTime? @db.DateTime(0)
+  reported                   DateTime? @db.DateTime(0)
+  modify_date                DateTime? @db.DateTime(0)
+  modify_by                  String    @db.VarChar(50)
+  trash                      Boolean?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_form7screening {
+  no                         BigInt
+  uuid                       String    @db.VarChar(200)
+  id                         String    @db.VarChar(100)
+  tgl_kontak                 DateTime? @db.Date
+  form1                      String    @db.VarChar(5)
+  upstatus                   String?   @db.VarChar(5)
+  form5b                     String?   @db.VarChar(5)
+  asal_form                  String    @db.VarChar(15)
+  uic                        String?   @db.VarChar(10)
+  uic_parent                 String    @db.VarChar(10)
+  tgl_lahir                  DateTime  @db.Date
+  umur                       Int
+  umur_bulan                 Int
+  kps_sp                     String?   @db.VarChar(10)
+  gender                     String?   @db.VarChar(12)
+  category                   String    @db.VarChar(50)
+  category2                  String    @db.VarChar(200)
+  tipe_kd                    String    @db.VarChar(15)
+  klien_adalah               String    @db.VarChar(25)
+  district                   String    @db.VarChar(10)
+  kecamatan                  String    @db.VarChar(12)
+  kelurahan                  String    @db.VarChar(15)
+  lokasi_kontak              String?   @db.VarChar(100)
+  lokasi_kontak_lain         String    @db.VarChar(100)
+  phone                      String    @db.VarChar(30)
+  phone_number               String    @db.VarChar(15)
+  ktp                        String    @db.VarChar(5)
+  ktp_ya                     String    @db.VarChar(100)
+  ktp_nik                    String    @db.VarChar(20)
+  pernah_tes_hiv             String?   @db.VarChar(50)
+  pernah_skrining            String?   @db.VarChar(50)
+  peraga_langsung            String    @db.VarChar(100)
+  alat_bantu_kerja           String?   @db.VarChar(100)
+  skrining_sekarang          String    @db.VarChar(100)
+  skrining_60_menit          String    @db.VarChar(5)
+  tempat_layak_skrining      String    @db.VarChar(5)
+  skrining_sendiri           String    @db.VarChar(5)
+  kontak_skrining_rumah      String?   @db.VarChar(25)
+  kontak_skrining_detail     String    @db.VarChar(50)
+  asisten_virtual            String    @db.VarChar(5)
+  asisten_virtual_ya         String    @db.VarChar(50)
+  asisten_virtual_detail     String    @db.VarChar(50)
+  panggilan_24jam            String    @db.VarChar(50)
+  panggilan_48jam            String    @db.VarChar(50)
+  kesulitan_skrining         String    @db.VarChar(100)
+  kesulitan_skrining_ya      String?   @db.VarChar(100)
+  membagi_hasil              String?   @db.VarChar(5)
+  membagi_hasil_ya           String?   @db.VarChar(25)
+  alat_skrining              Int
+  slip_rujukan_dibantu       String?   @db.VarChar(5)
+  slip_rujukan_tanpa_dibantu String    @db.VarChar(5)
+  media_kie                  String    @db.VarChar(5)
+  kartu_kontak_cbs           String    @db.VarChar(5)
+  slip_2pn                   String    @db.VarChar(5)
+  form_entri                 String    @db.VarChar(10)
+  nama_cbs_plus              String    @db.VarChar(50)
+  kode_nama_cbs              String    @db.VarChar(100)
+  kode_parent_cbs            String    @db.VarChar(100)
+  tipe_cbs                   String    @db.VarChar(200)
+  cso                        String?   @db.VarChar(200)
+  kode_cso                   String?   @db.VarChar(10)
+  tgl_review                 DateTime? @db.Date
+  create_date                DateTime? @db.DateTime(0)
+  create_by                  String?   @db.VarChar(50)
+  validated                  DateTime? @db.DateTime(0)
+  reported                   DateTime? @db.DateTime(0)
+  modify_date                DateTime? @db.DateTime(0)
+  modify_by                  String    @db.VarChar(50)
+  trash                      Boolean?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_form8 {
+  no                                   BigInt
+  uuid                                 String    @db.VarChar(200)
+  id                                   String    @db.VarChar(100)
+  tgl_kontak                           DateTime? @db.Date
+  uic                                  String    @db.VarChar(10)
+  uic_parent                           String    @db.VarChar(10)
+  umur                                 Int
+  kps_sp                               String    @db.VarChar(25)
+  gender                               String    @db.VarChar(25)
+  category                             String    @db.VarChar(50)
+  tipe_kd                              String    @db.VarChar(50)
+  district                             String    @db.VarChar(10)
+  kecamatan                            String    @db.VarChar(12)
+  kelurahan                            String    @db.VarChar(15)
+  nama_petugas                         String    @db.VarChar(100)
+  jabatan_petugas                      String    @db.VarChar(100)
+  jabatan_petugas_lain                 String    @db.VarChar(100)
+  lembaga_petugas                      String    @db.VarChar(100)
+  tanggal_formulir                     DateTime  @db.Date
+  lokasi_pengungkapan                  String    @db.VarChar(50)
+  lokasi_pengungkapan_lain             String    @db.VarChar(100)
+  kekerasan_diungkap_anonim            String    @db.VarChar(10)
+  gender_lain                          String    @db.VarChar(50)
+  gender_lahir                         String    @db.VarChar(25)
+  gender_lahir_lain                    String    @db.VarChar(50)
+  tipe_populasi                        String    @db.VarChar(25)
+  tipe_populasi_lain                   String    @db.VarChar(100)
+  tipe_kd_lain                         String    @db.VarChar(100)
+  jenis_layanan_diakses                String    @db.VarChar(25)
+  jenis_layanan_diakses_lain           String    @db.VarChar(100)
+  tanggal_kekerasan_sebelumnya         DateTime  @db.Date
+  lokasi_kekerasan                     String    @db.VarChar(200)
+  kapan_pengungkapan_kejadian          String    @db.VarChar(200)
+  jenis_kekerasan_terjadi              String    @db.VarChar(200)
+  jenis_kekerasan_ham_terjadi          String    @db.VarChar(200)
+  jenis_kekerasan_lain_terjadi         String    @db.VarChar(200)
+  deskripsi_kekerasan                  String    @db.Text
+  pelaku_kekerasan                     String    @db.VarChar(200)
+  pelaku_petugas_layanan               String    @db.VarChar(100)
+  pelaku_petugas_penjangkau            String    @db.VarChar(100)
+  pelaku_kekerasan_lainnya             String    @db.VarChar(200)
+  kekerasan_akibat_layanan             String    @db.VarChar(100)
+  kekerasan_akibat_layanan_lain        String    @db.VarChar(200)
+  kekerasan_terkait_psbb               String    @db.VarChar(25)
+  tanggapan_awal_pengungkapan          String    @db.VarChar(200)
+  nama_petugas_bagian2                 String    @db.VarChar(100)
+  jabatan_petugas_bagian2              String    @db.VarChar(100)
+  jabatan_petugas_bagian2_lain         String    @db.VarChar(200)
+  instansi_petugas_bagian2             String    @db.VarChar(100)
+  layak_mendapatkan_pep                String    @db.VarChar(25)
+  layak_mendapatkan_kontrasepsi        String    @db.VarChar(25)
+  asesmen_yang_ditawarkan              String?   @db.Text
+  pengobatan_luka                      String?   @db.Text
+  rapid_tes_hiv                        String?   @db.Text
+  post_exposure_prophylaxis            String?   @db.Text
+  pengobatan_skrining_ims              String?   @db.Text
+  kontrasepsi_darurat                  String?   @db.Text
+  konseling_psikososial                String?   @db.Text
+  kesehatan_mental                     String?   @db.Text
+  vaksin_tetanus                       String?   @db.Text
+  inisiasi_art                         String?   @db.Text
+  rujukan_prep                         String?   @db.Text
+  dukungan_psikososial                 String?   @db.Text
+  bantuan_hukum                        String?   @db.Text
+  intervensi_penegakan_hukum           String?   @db.Text
+  perlindungan_anak                    String?   @db.Text
+  pemberdayaan_ekonomi                 String?   @db.Text
+  rumah_singgah_sementara              String?   @db.Text
+  rujukan_yang_diberikan_lainnya       String?   @db.Text
+  hasil_rujukan_yang_diberikan_lainnya String?   @db.Text
+  apakah_prep_diberikan                String    @db.VarChar(15)
+  tes_hiv_3bulan_setelahnya            String    @db.VarChar(15)
+  tidak_lanjut_diberikan               String?   @db.Text
+  nama_petugas_investigasi             String    @db.VarChar(100)
+  jabatan_petugas_investigasi          String    @db.VarChar(200)
+  ringkasan_temuan                     String    @db.Text
+  tindak_lanjut_akan_datang            String    @db.Text
+  diselesaikan_masalah_ini             String    @db.VarChar(15)
+  tindak_lanjut_tidak_diselesaikan     String?   @db.Text
+  form_entri                           String    @db.VarChar(10)
+  kode_nama_cbs                        String    @db.VarChar(100)
+  cso                                  String    @db.VarChar(200)
+  kode_cso                             String    @db.VarChar(25)
+  validated                            DateTime? @db.DateTime(0)
+  reported                             DateTime? @db.DateTime(0)
+  created_date                         DateTime? @db.DateTime(0)
+  created_by                           String    @db.VarChar(50)
+  modify_date                          DateTime? @db.DateTime(0)
+  modify_by                            String    @db.VarChar(50)
+  approved                             String    @db.VarChar(1)
+  trash                                Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_kelurahan {
+  daerah_id        Int
+  site_id          String   @db.VarChar(100)
+  daerah_kode      String   @db.VarChar(100)
+  daerah_titel     String   @db.VarChar(200)
+  daerah_alias     String   @db.VarChar(200)
+  daerah_paren     String   @db.VarChar(100)
+  daerah_tipe      String   @db.VarChar(100)
+  daerah_latitude  String   @db.VarChar(10)
+  daerah_longitude String   @db.VarChar(10)
+  create_by        String   @db.VarChar(100)
+  modify_by        String   @db.VarChar(100)
+  create_date      DateTime @db.DateTime(0)
+  modify_date      DateTime @db.DateTime(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_kitscreening {
+  no             BigInt
+  uuid           String    @db.VarChar(200)
+  tgl_kontak     DateTime  @db.Date
+  tgl_distribusi DateTime? @db.Date
+  distribusi     Int
+  tgl_periksa    DateTime? @db.Date
+  rusak          Int
+  diterima       Int
+  akumulasi      Int
+  dipakai        Int
+  stok           Int
+  kode_nama_cbs  String    @db.VarChar(50)
+  cso            String?   @db.VarChar(200)
+  kode_cso       String?   @db.VarChar(10)
+  create_date    DateTime? @db.DateTime(0)
+  create_by      String?   @db.VarChar(50)
+  modify_date    DateTime? @db.DateTime(0)
+  modify_by      String    @db.VarChar(50)
+  trash          Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_option {
+  op_id       Int
+  site_id     String   @db.VarChar(2)
+  op_titel    String   @db.VarChar(200)
+  op_alias    String   @db.VarChar(200)
+  op_kode     String   @db.VarChar(15)
+  op_data     String   @db.VarChar(200)
+  op_paren    Int
+  op_tipe     String   @db.VarChar(50)
+  create_by   String   @db.VarChar(30)
+  modify_by   String   @db.VarChar(30)
+  create_date DateTime @db.DateTime(0)
+  modify_date DateTime @db.DateTime(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_plhiv {
+  id                Int
+  tested_id         Int?
+  uic               String    @db.VarChar(10)
+  kode_cso          String    @db.VarChar(15)
+  diagnosed_at      DateTime? @db.Date
+  pn                String?   @db.VarChar(5)
+  confirmatory_test String?   @db.VarChar(5)
+  registered_at     DateTime? @db.Date
+  initiated_at      DateTime? @db.Date
+  last_refill       DateTime? @db.Date
+  next_refill       DateTime? @db.Date
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_profil {
+  id              Int
+  tgl_kontak      DateTime? @db.Date
+  jumlah_kontak   Int
+  uic             String?   @db.VarChar(10)
+  nik             String?   @db.VarChar(16)
+  umur            Int
+  kps_sp          String    @db.VarChar(10)
+  gender          String?   @db.VarChar(12)
+  category        String?   @db.VarChar(50)
+  category2       String    @db.VarChar(200)
+  district        String?   @db.VarChar(10)
+  kecamatan       String?   @db.VarChar(12)
+  kelurahan       String?   @db.VarChar(15)
+  kelurahan2      String    @db.VarChar(30)
+  lokasi_kontak   String?   @db.VarChar(100)
+  phone           String    @db.VarChar(20)
+  phone_number    String    @db.VarChar(15)
+  ktp             String?   @db.VarChar(3)
+  ktp_ya          String?   @db.VarChar(100)
+  asuransi        String?   @db.VarChar(3)
+  asuransi_ya     String?   @db.VarChar(100)
+  tahu_status_hiv String?   @db.VarChar(15)
+  klien_adalah    String    @db.VarChar(50)
+  form_entri      String    @db.VarChar(10)
+  kode_nama_cbs   String?   @db.VarChar(100)
+  kode_cso        String    @db.VarChar(10)
+  created_by      String?   @db.VarChar(50)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+  deleted_at      DateTime? @db.DateTime(0)
+  trash           Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_target_2024 {
+  no          Int
+  id          String   @db.VarChar(50)
+  mulai       DateTime @db.Date
+  akhir       DateTime @db.Date
+  indikator   String   @db.VarChar(50)
+  tipe_data   String   @db.VarChar(10)
+  angka       Int
+  kode_cso    String   @db.VarChar(10)
+  create_by   String   @db.VarChar(30)
+  create_date DateTime @db.DateTime(0)
+  modify_by   String   @db.VarChar(30)
+  modify_date DateTime @db.DateTime(0)
+  trash       Int?     @default(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_termination {
+  no              BigInt
+  uuid            String    @db.VarChar(200)
+  id              String    @db.VarChar(100)
+  tgl_kontak      DateTime? @db.Date
+  jumlah_kontak   Int
+  uic             String?   @db.VarChar(10)
+  uic_parent      String    @db.VarChar(10)
+  umur            Int
+  kps_sp          String    @db.VarChar(10)
+  gender          String?   @db.VarChar(12)
+  category        String?   @db.VarChar(50)
+  category2       String    @db.VarChar(200)
+  tipe_kd         String    @db.VarChar(15)
+  district        String?   @db.VarChar(10)
+  kecamatan       String?   @db.VarChar(12)
+  kelurahan       String?   @db.VarChar(15)
+  phone           String    @db.VarChar(50)
+  phone_number    String    @db.VarChar(15)
+  form_cbs        String?   @db.VarChar(50)
+  tindak_lanjut   String?   @db.VarChar(100)
+  alasan          String?   @db.VarChar(100)
+  alasan_lainnya  String?   @db.VarChar(200)
+  cbs_baru        String?   @db.VarChar(50)
+  form_entri      String    @db.VarChar(10)
+  kode_nama_cbs   String?   @db.VarChar(50)
+  kode_parent_cbs String    @db.VarChar(50)
+  tipe_cbs        String    @db.VarChar(200)
+  cso             String?   @db.VarChar(200)
+  kode_cso        String    @db.VarChar(10)
+  form            String    @db.VarChar(5)
+  tgl_review      DateTime  @db.Date
+  validated       DateTime? @db.DateTime(0)
+  reported        DateTime? @db.DateTime(0)
+  create_date     DateTime  @db.DateTime(0)
+  create_by       String    @db.VarChar(50)
+  modify_date     DateTime? @db.DateTime(0)
+  modify_by       String    @db.VarChar(50)
+  trash           Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_transition {
+  no                    BigInt
+  uuid                  String    @db.VarChar(200)
+  id                    String    @db.VarChar(100)
+  tgl_kontak            DateTime? @db.Date
+  uic                   String?   @db.VarChar(10)
+  uic_parent            String    @db.VarChar(10)
+  tgl_lahir             DateTime  @db.Date
+  umur                  Int
+  kps_sp                String    @db.VarChar(10)
+  gender                String?   @db.VarChar(12)
+  category              String?   @db.VarChar(50)
+  category2             String    @db.VarChar(200)
+  tipe_kd               String    @db.VarChar(15)
+  district              String?   @db.VarChar(10)
+  kecamatan             String?   @db.VarChar(12)
+  kelurahan             String?   @db.VarChar(15)
+  phone                 String    @db.VarChar(50)
+  phone_number          String    @db.VarChar(15)
+  status_odha           String    @db.VarChar(25)
+  form_cbs              String    @db.VarChar(15)
+  jenis_arv             String    @db.VarChar(25)
+  kombinasi_arv         String    @db.Text
+  kombinasi_arv_lain    String    @db.VarChar(200)
+  tgl_art               DateTime? @db.Date
+  belum_art             String?   @db.VarChar(50)
+  tes_vl_terakhir       String    @db.VarChar(50)
+  syarat_tes_vl         String    @db.VarChar(10)
+  sudah_menjadwalkan_vl String    @db.VarChar(10)
+  hasil_tes_vl          String    @db.VarChar(30)
+  nilai_tes_vl          Int
+  jadwal_tes_vl         String    @db.VarChar(50)
+  tindak_lanjut         String    @db.VarChar(50)
+  lembaga_baru          String    @db.VarChar(50)
+  petugas_baru          String    @db.VarChar(50)
+  kontak_baru           String    @db.VarChar(50)
+  layanan_pdp           String    @db.VarChar(50)
+  rujuk_kds             String    @db.VarChar(50)
+  lembaga_kds           String    @db.VarChar(25)
+  pindah_layanan        String    @db.VarChar(50)
+  tindak_lanjut_lainnya String    @db.VarChar(50)
+  form_entri            String    @db.VarChar(10)
+  kode_nama_cbs         String?   @db.VarChar(100)
+  kode_parent_cbs       String    @db.VarChar(100)
+  tipe_cbs              String    @db.VarChar(200)
+  cso                   String?   @db.VarChar(200)
+  kode_cso              String    @db.VarChar(10)
+  form                  String    @db.VarChar(5)
+  tgl_review            DateTime  @db.Date
+  validated             DateTime? @db.DateTime(0)
+  reported              DateTime? @db.DateTime(0)
+  create_date           DateTime  @db.DateTime(0)
+  create_by             String    @db.VarChar(50)
+  modify_date           DateTime? @db.DateTime(0)
+  modify_by             String    @db.VarChar(50)
+  trash                 Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tb_user_log {
+  user_log_id Int
+  site_id     String   @db.VarChar(100)
+  user_id     Int
+  duration    Int
+  login       DateTime @db.DateTime(0)
+  last        DateTime @db.DateTime(0)
+  logout      DateTime @db.DateTime(0)
+
+  @@ignore
+}
+
+model tb_users {
+  user_id                    Int       @id
+  user_uuid                  String    @db.VarChar(200)
+  site_id                    String    @db.VarChar(2)
+  user_login                 String    @db.VarChar(100)
+  user_login_old             String    @db.VarChar(200)
+  user_pass                  String    @db.VarChar(200)
+  user_pass2                 String    @db.VarChar(200)
+  user_first                 String    @db.VarChar(200)
+  user_last                  String    @db.VarChar(200)
+  user_gender                String    @db.VarChar(100)
+  user_tmp_lahir             String    @db.VarChar(100)
+  user_tgl_lahir             DateTime? @db.Date
+  user_level_instansi        String    @db.VarChar(100)
+  user_type                  String    @db.VarChar(100)
+  user_implementor           String    @db.VarChar(50)
+  prov_kode                  String    @db.VarChar(15)
+  kab_kode                   String    @db.VarChar(15)
+  kec_kode                   String    @db.VarChar(15)
+  user_alamat                String    @db.VarChar(200)
+  user_email                 String    @db.VarChar(200)
+  user_wilayah               String    @db.VarChar(15)
+  user_telepon               String    @db.VarChar(15)
+  user_imei                  String    @db.VarChar(200)
+  user_lama_kerja            String    @db.VarChar(30)
+  user_group                 String    @db.VarChar(5)
+  user_group2                String    @db.VarChar(3)
+  user_mulai                 DateTime  @db.Date
+  user_akhir                 DateTime  @db.Date
+  user_perminggu             Int
+  user_renumerasi            String    @db.VarChar(100)
+  user_renumerasi_nilai      Decimal   @db.Decimal(10, 0)
+  user_salary                Decimal   @db.Decimal(10, 0)
+  user_stipend               Decimal   @db.Decimal(10, 0)
+  user_transportasi          Decimal   @db.Decimal(10, 0)
+  user_telekomunikasi        Decimal   @db.Decimal(10, 0)
+  user_alat                  String    @db.VarChar(100)
+  user_renumerasi_lain       String    @db.VarChar(100)
+  user_renumerasi_nilai_lain String    @db.VarChar(100)
+  user_jam_kerja             Int
+  user_paren                 String    @db.VarChar(100)
+  user_level                 String    @db.VarChar(100)
+  user_permit                String    @db.Text
+  user_active                String    @db.VarChar(1)
+  user_display               String    @db.VarChar(200)
+  user_avatar                String    @db.VarChar(200)
+  utoken                     String    @db.VarChar(200)
+  create_by                  String    @db.VarChar(30)
+  create_date                DateTime  @db.DateTime(0)
+  modify_by                  String    @db.VarChar(30)
+  modify_date                DateTime  @db.DateTime(0)
+  language                   String    @db.VarChar(15)
+  trash                      Int
+}
+
+enum tb_daerah_siha_flag {
+  YES @map("1")
+  NO  @map("0")
+}
