@@ -2,9 +2,8 @@ import { z, ZodType } from "zod";
 
 
 export class Form1Validation {
-    static readonly REGISTER: ZodType = z.object({
-        id: z.string().max(100),
-        metode_kontak: z.string().nonempty("This field cannot be empty").max(50),
+    static readonly CREATEFORM1: ZodType = z.object({
+        metode_kontak: z.string().max(50),
         jumlah_kontak: z.number().int(),
         kategori_kontak: z.string().max(15),
         uic: z.string().max(10).optional(),
@@ -67,5 +66,9 @@ export class Form1Validation {
         modify_date: z.date().optional(),
         modify_by: z.string().max(50),
         trash: z.number().int(),
+    })
+
+    static readonly UPDATEFORM1: ZodType = z.object({
+        
     })
 }
