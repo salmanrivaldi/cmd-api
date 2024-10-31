@@ -60,15 +60,27 @@ export class Form1Validation {
         tipe_cbs: z.string().max(200),
         cso: z.string().max(200).optional(),
         kode_cso: z.string().max(10),
+        tgl_review: z.preprocess((arg) => {
+            if (typeof arg === "string" || arg instanceof Date) {
+                const date = new Date(arg);
+                if (!isNaN(date.getTime())) return date;
+            }
+            return undefined;
+        }, z.date().optional()),
         validated: z.string().datetime().optional(),
         reported: z.string().datetime().optional(),
         create_by: z.string().max(50),
         modify_date: z.date().optional(),
         modify_by: z.string().max(50),
         trash: z.number().int(),
-    })
+    });
 
     static readonly UPDATEFORM1: ZodType = z.object({
         
-    })
+    });
+
+    static readonly PAGINGFORM1: ZodType = z.object({
+        page: z.number().min(1).positive(),
+        size: z.number().min(1).positive(),
+    });
 }

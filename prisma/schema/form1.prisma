@@ -60,7 +60,7 @@ model TbForm1 {
   tipe_cbs                 String    @db.VarChar(200)
   cso                      String?   @db.VarChar(200)
   kode_cso                 String    @db.VarChar(10)
-  tgl_review               DateTime  @db.Date
+  tgl_review               DateTime? @db.Date
   validated                DateTime? @db.DateTime(0)
   reported                 DateTime? @db.DateTime(0)
   create_date              DateTime  @db.DateTime(0)

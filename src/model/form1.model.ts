@@ -216,3 +216,8 @@ export class UpdateForm1Request {
     modify_by: string; // Required field
     trash: number; // Required field
 }
+
+export class PagingForm1Request {
+    page: number;
+    size: number;
+}
