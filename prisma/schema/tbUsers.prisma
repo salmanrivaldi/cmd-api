@@ -1,0 +1,56 @@
+model TbUser {
+  user_id                    Int       @id @default(autoincrement())
+  user_uuid                  String    @db.VarChar(200)
+  site_id                    String    @db.VarChar(2)
+  user_login                 String    @db.VarChar(100)
+  user_login_old             String    @db.VarChar(200)
+  user_pass                  String    @db.VarChar(200)
+  user_pass2                 String    @db.VarChar(200)
+  user_first                 String    @db.VarChar(200)
+  user_last                  String    @db.VarChar(200)
+  user_gender                String    @db.VarChar(100)
+  user_tmp_lahir             String    @db.VarChar(100)
+  user_tgl_lahir             DateTime? @db.Date
+  user_level_instansi        String    @db.VarChar(100)
+  user_type                  String    @db.VarChar(100)
+  user_implementor           String    @db.VarChar(50)
+  prov_kode                  String    @db.VarChar(15)
+  kab_kode                   String    @db.VarChar(15)
+  kec_kode                   String    @db.VarChar(15)
+  user_alamat                String    @db.VarChar(200)
+  user_email                 String    @db.VarChar(200)
+  user_wilayah               String    @db.VarChar(15)
+  user_telepon               String    @db.VarChar(15)
+  user_imei                  String    @db.VarChar(200)
+  user_lama_kerja            String    @db.VarChar(30)
+  user_group                 String    @db.VarChar(5)
+  user_group2                String    @db.VarChar(3)
+  user_mulai                 DateTime? @db.Date
+  user_akhir                 DateTime? @db.Date
+  user_perminggu             Int
+  user_renumerasi            String    @db.VarChar(100)
+  user_renumerasi_nilai      Decimal   @db.Decimal(10, 0)
+  user_salary                Decimal   @db.Decimal(10, 0)
+  user_stipend               Decimal   @db.Decimal(10, 0)
+  user_transportasi          Decimal   @db.Decimal(10, 0)
+  user_telekomunikasi        Decimal   @db.Decimal(10, 0)
+  user_alat                  String    @db.VarChar(100)
+  user_renumerasi_lain       String    @db.VarChar(100)
+  user_renumerasi_nilai_lain String    @db.VarChar(100)
+  user_jam_kerja             Int
+  user_paren                 String    @db.VarChar(100)
+  user_level                 String    @db.VarChar(100)
+  user_permit                String    @db.Text
+  user_active                String    @db.VarChar(1)
+  user_display               String    @db.VarChar(200)
+  user_avatar                String    @db.VarChar(200)
+  utoken                     String    @db.VarChar(200)
+  create_by                  String    @db.VarChar(30)
+  create_date                DateTime? @db.DateTime(0)
+  modify_by                  String    @db.VarChar(30)
+  modify_date                DateTime? @db.DateTime(0)
+  language                   String    @db.VarChar(15)
+  trash                      Int
+
+  @@map("tb_users")
+}

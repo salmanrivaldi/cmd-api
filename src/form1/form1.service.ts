@@ -215,7 +215,7 @@ export class Form1Service {
     //Function to return form1 response
     toForm1Response(form1: TbForm1) : Form1Response {
         return {
-            no: form1.no,
+        no: form1.no,
         uuid: form1.uuid,
         id: form1.id,
         tgl_kontak: form1.tgl_kontak ?? undefined, // Optional
@@ -288,7 +288,6 @@ export class Form1Service {
     }
 
     //Get All Form 1
-
     async getAll(page: number, size: number) : Promise<WebResponse<Form1Response[]>> {
 
         const skip = (page - 1) * size;
@@ -310,36 +309,6 @@ export class Form1Service {
         }
     }
 
-    // async getAll(page: number, limit: number): Promise<Form1Response[]> {
-    //     this.logger.info('Fetching all form 1');
-    
-    //     // Validate and set default values for page and limit
-    //     const pageNumber = page > 0 ? page : 1;
-    //     const limitNumber = limit > 0 ? limit : 10;
-    
-    //     const skip = (pageNumber - 1) * limitNumber; // Calculate the offset
-    
-    //     try {
-    //         // Fetch forms from the database with pagination
-    //         const allForms = await this.PrismaService.tbForm1.findMany({
-    //             skip: skip, // This is an integer
-    //             take: limitNumber, // This is also an integer
-    //         });
-    
-    //         // Filter out invalid dates
-    //         const validForms = allForms.filter(form => {
-    //             if (!form.tgl_review) return false; // Exclude null or undefined dates
-    //             const tglReview = new Date(form.tgl_review);
-    //             return tglReview instanceof Date && !isNaN(tglReview.getTime()); // Ensure it's a valid date
-    //         });
-    
-    //         // Return the valid forms
-    //         return validForms;
-    //     } catch (error) {
-    //         this.logger.error('Could not fetch forms', error);
-    //         throw new Error('Error fetching forms'); // Customize the error message as needed
-    //     }
-    // }
 
     //Update Form 1
     
